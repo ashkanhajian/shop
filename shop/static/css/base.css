@@ -14,11 +14,12 @@
     padding: 10px;
 }
 a:link, a:visited{
-    color: white;
+    color: #0c0c0c;
     text-decoration: none;
+
 }
 .product{
-    border:1px solid #ccc;
+    border:1px solid #252121;
     padding: 10px;
     text-align: center;
 }
@@ -34,4 +35,28 @@ a:link, a:visited{
 }
 .discounted-price{
     color: red;
+}
+.product-container{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px ;
+}
+.product-detail{
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+     border: 1px solid #ccc;
+}
+.product-images{
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+.pr-dc{
+    clear:both;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
 }

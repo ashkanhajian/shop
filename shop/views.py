@@ -1,8 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import *
+from .models import Product, Category
 
-
-# Create your views here.
 
 def product_list(request, category_slug=None):
     category = None
@@ -16,7 +14,7 @@ def product_list(request, category_slug=None):
         'categories': categories,
         'products': products,
     }
-    return render(request, 'shop/list.html')
+    return render(request, 'shop/list.html', context)
 
 
 def product_detail(request, id, slug):
