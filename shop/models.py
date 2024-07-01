@@ -30,6 +30,7 @@ class Product(models.Model):
     description = models.TextField(max_length=1200, verbose_name='product info')
     inventory = models.PositiveIntegerField(default=0, verbose_name='inventory')
     price = models.PositiveIntegerField(default=0, verbose_name='price')
+    weight = models.PositiveIntegerField(default=0, verbose_name='weight')
     off = models.PositiveIntegerField(default=0, verbose_name='off')
     new_price = models.PositiveIntegerField(default=0, verbose_name="new price")
 
