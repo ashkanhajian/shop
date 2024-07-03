@@ -16,9 +16,11 @@ def add_to_cart(request, product_id):
             'item_count': len(cart),
             'total_price': cart.get_total_price(),
         }
+        return JsonResponse(context)
     except:
         return JsonResponse({'error': "Invalid request."})
 
 
 def cart_detail(request):
     cart = Cart(request)
+    return render(request, 'cart/detail.html', {'cart': cart})

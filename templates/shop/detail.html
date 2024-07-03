@@ -39,28 +39,29 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script>
-  $(document).ready(function(){
-    $('#add-cart').click(function(){
-        var button = $(this);
-        var quantity = $('#id-quantity').val(); // Use jQuery to get the value
+   <<script>
+    $(document).ready(function(){
+        $('#add-cart').click(function(){
+            var button = $(this);
+            var quantity = document.getElementById('id-quantity').value;
 
-        // Get the CSRF token from Django
-        var csrfToken = '{{ csrf_token }}';
-
-        $.ajax({
-           type: 'POST',
-           url: '{% url "cart:add_to_cart" product.id %}',
-           data:{
-               'csrfmiddlewaretoken': csrfToken, // Use the variable instead of Django template tag
-                'quantity': quantity,
-           },
-           success: function(data) {
-               $('#item_count').text(data.item_count);
-               $('#total_price').text(data.total_price);
-           },
+            $.ajax({
+               type: 'POST',
+               url: '{% url 'cart:add_to_cart' product.id %}',
+               data:{
+                   'csrfmiddlewaretoken':'{{ csrf_token }}',
+                    'quantity': quantity,
+               },
+               success: function(data) {
+                   $('#item_count').text(data.item_count);
+                   $('#total_price').text(data.total_price);
+                   if (data.cart_count === true) {
+                       $('#add-cart').attr('disabled', true);
+                       $('#add-cart').text('فاقد موجودی');
+                   }
+               },
+            });
         });
     });
-});
 </script>
 {% endblock %}

@@ -15,7 +15,7 @@
     padding: 10px;
 }
 a:link, a:visited{
-    color: #0c0c0c;
+    color: #f3ecec;
     text-decoration: none;
 
 }
@@ -69,7 +69,7 @@ a:link, a:visited{
     padding: 10px;
     background-color: #0c1433;
     border-bottom-left-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0, 3);
 }
 .cart-link{
     text-decoration: none;
@@ -94,4 +94,53 @@ a:link, a:visited{
 }
 .cart-info{
     color: #fff;
+}
+.product-info{
+    background-color: dimgray;
+}
+.cart-count{
+    width: 80%;
+    margin: 190px auto;
+    background-color: lightslategray;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.product-item{
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    align-items: center;
+}
+.product-image{
+    max-width: 200px;
+    max-height: 200px;
+    margin-right: 20px;
+}
+.product-info{
+    flex-grow: 1;
+    text-align: left;
+}
+.actions{
+    background-color: #0b1a5e;
+    color: #fff;
+    padding: 10px;
+}
+.quantity-add, .quantity-decrease, .quantity-remove{
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #0b1a5e;
+}
+.total-price{
+    font-weight: bold;
+    margin-top: 20px;
+}
+.checkout-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.continue-bth, .back-btn{
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
 }
