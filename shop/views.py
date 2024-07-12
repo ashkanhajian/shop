@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
+from card.cart import Cart
 
 
 def product_list(request, category_slug=None):
@@ -14,10 +15,22 @@ def product_list(request, category_slug=None):
         'categories': categories,
         'products': products,
     }
-
     return render(request, 'shop/list.html', context)
 
 
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, slug=slug, id=id)
-    return render(request, 'shop/detail.html', {'product': product})
+    cart = Cart(request)
+
+    try:
+        cart_quantity = cart.cart[str(id)]['quantity']
+        count = product.inventory == cart_quantity
+    except KeyError:
+        count = False
+
+    context = {
+        'count': count,
+        'cart': cart,
+        'product': product,
+    }
+    return render(request, 'shop/detail.html', context)

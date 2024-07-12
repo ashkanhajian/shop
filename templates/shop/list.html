@@ -15,7 +15,7 @@
             <ul class="categories">
                 <li class="category"><a href="{% url 'shop:products_list' %}">All</a></li>
                 {% for ct in categories %}
-                <li class="category"><a href="{{ ct.get_absolute_url }}">{{ ct.name }}</a></li>
+                <li class="category"><a href="{% url 'shop:products_by_category' ct.slug %}">{{ ct.name }}</a></li>
                 {% endfor %}
         </ul>
         </div>
