@@ -5,7 +5,8 @@ from shop.models import Product
 # Create your models here.
 
 class Order(models.Model):
-    name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     phone = models.CharField(max_length=11)
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=10)
@@ -28,13 +29,14 @@ class Order(models.Model):
         return sum(item.get_cost() for item in self.items.all())
 
     def get_total_weight(self):
-        weight=sum(item.get_weight() for item in self.items.all())
+        weight = sum(item.get_weight() for item in self.items.all())
         if weight < 1000:
             return 20000
         elif 1000 <= weight <= 2000:
             return 30000
         else:
             return 50000
+
     def get_total_price(self):
         price = self.get_total_cost() + self.get_total_weight()
         return price
@@ -54,4 +56,4 @@ class OrderItem(models.Model):
         return self.price * self.quantity
 
     def get_weight(self):
-        return self.weight
+        return self.weight * self.quantity
