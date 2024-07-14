@@ -3,6 +3,38 @@ from django.views.decorators.http import require_POST
 from shop.models import Product
 from .cart import Cart
 from django.http import JsonResponse
+from kavenegar import *
+
+
+@require_POST
+def add_to_cart(request, product_id):
+    try:
+        cart = Cart(request)
+        product = get_object_or_404(Product, id=product_id)
+        cart.add(product)
+        context = {
+            'item_count': len(cart),
+            'total_price': cart.get_total_price(),
+        }
+        try:
+            api = KavenegarAPI('your apikey here')
+            params = {
+                'receptor': '',
+                'template': '',
+                'token': '',
+                'token2': '',
+                'token3': '',
+                'type': 'sms',  # sms vs call
+            }
+            response = api.verify_lookup(params)
+            print(response)
+        except APIException as e:
+            print(e)
+        except HTTPException as e:
+            print(e)
+        return JsonResponse(context)
+    except:
+        return JsonResponse({"error": 'invalid request'})
 
 
 # Create your views here.
