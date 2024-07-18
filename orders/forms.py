@@ -1,5 +1,6 @@
 from django import forms
 from account.models import ShopUser
+from .models import Order
 
 
 class PhoneVerificationFrom(forms.Form):
@@ -10,3 +11,9 @@ class PhoneVerificationFrom(forms.Form):
         if ShopUser.objects.filter(phone=phone).exists():
             raise forms.ValidationError('phone already exits!')
         return phone
+
+
+class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'phone', 'city', 'address', 'postal_code', 'province']
