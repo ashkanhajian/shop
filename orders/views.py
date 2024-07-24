@@ -43,7 +43,7 @@ def verify_code(request):
                 login(request, user)
                 del request.session['verification_code']
                 del request.session['phone']
-                return redirect('shop:products_list')
+                return redirect('orders:create_order')
             else:
                 messages.error(request, 'Verification code is incorrect')
     return render(request, 'order/verify_code.html')
