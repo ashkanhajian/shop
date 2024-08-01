@@ -13,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def verify_phone(request):
+    if request.user.is_authenticated:
+        return redirect('orders:create_order')
     if request.method == 'POST':
         form = PhoneVerificationFrom(request.POST)
         if form.is_valid():
@@ -30,6 +32,7 @@ def verify_phone(request):
 
 
 def verify_code(request):
+
     if request.method == 'POST':
         code = request.POST.get('code')
         if code:

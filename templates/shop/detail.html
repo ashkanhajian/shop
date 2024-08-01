@@ -36,14 +36,16 @@
         <h3>information about product</h3>
         <p>{{ product.description }}</p>
     </div>
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function(){
         $('#add-cart').click(function(){
             var button = $(this);
-            var quantity = document.getElementById('id-quantity').value;
+                var quantity = $('#id-quantity').val();
+                var csrf_token = '{{ csrf_token }}';
+
+                console.log('Quantity:', quantity); // لاگ برای دیباگ
+                console.log('CSRF Token:', csrf_token); //
 
             $.ajax({
                type: 'POST',
