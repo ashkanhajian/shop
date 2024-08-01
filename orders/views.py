@@ -60,7 +60,9 @@ def order_create(request):
                 OrderItem.objects.create(order=order, product=item['product'], price=item['price'],
                                          quantity=item['quantity']
                                          , weight=item['weight'])
-                cart.clear()
+            cart.clear()
+            return redirect('shop:products_list')
+
     else:
         form = OrderCreateForm()
     return render(request, 'order/order_create.html', {'form': form, 'cart': cart})
