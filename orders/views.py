@@ -32,7 +32,6 @@ def verify_phone(request):
 
 
 def verify_code(request):
-
     if request.method == 'POST':
         code = request.POST.get('code')
         if code:
@@ -59,6 +58,8 @@ def order_create(request):
         form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
+            order.buyer = request.user
+            order.save()
             for item in cart:
                 OrderItem.objects.create(order=order, product=item['product'], price=item['price'],
                                          quantity=item['quantity']
