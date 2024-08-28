@@ -123,12 +123,12 @@ def send_request(request):
         return HttpResponse('Connection Error')
 
 
-def verify(authority):
+def verify(request):
     order = Order.objects.get(id=request.session['order_id'])
     data = {
         "MerchantID": settings.MERCHANT,
         # "Amount": amount,
-        "Authority": authority,
+        # "Authority": authority,
     }
     data = json.dumps(data)
     # set content length by data
