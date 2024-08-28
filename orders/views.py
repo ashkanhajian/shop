@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import *
-from .models import OrderItem
+from .models import OrderItem , Order
 from card.cart import Cart
 from account.models import ShopUser
 import random
@@ -69,14 +69,12 @@ def order_create(request):
                 OrderItem.objects.create(order=order, product=item['product'], price=item['price'],
                                          quantity=item['quantity']
                                          , weight=item['weight'])
-            # cart.clear()
+            cart.clear()
             return redirect('orders:request')
 
     else:
         form = OrderCreateForm()
     return render(request, 'order/order_create.html', {'form': form, 'cart': cart})
-
-
 
 
 # ? sandbox merchant
@@ -89,18 +87,18 @@ ZP_API_REQUEST = f"https://{sandbox}.zarinpal.com/pg/rest/WebGate/PaymentRequest
 ZP_API_VERIFY = f"https://{sandbox}.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
 ZP_API_STARTPAY = f"https://{sandbox}.zarinpal.com/pg/StartPay/"
 
-
-CallbackURL = 'http://127.0.0.1:7000/verify/'
+CallbackURL = 'http://127.0.0.1:7000/order/verify/'
 
 
 def send_request(request):
+    order = Order.objects.get(id=request.session['order_id'])
     cart = Cart(request)
     description = ''
-    for item in cart:
-        description += str(item['product'].name)
+    for item in order.order_item:
+        description += item.product.name + ','
     data = {
         "MerchantID": settings.MERCHANT,
-        "Amount": cart.get_final_price(),
+        "Amount": order.get_final_price(),
         "Description": description,
         "Phone": request.user.phone,
         "CallbackURL": CallbackURL,
@@ -126,9 +124,10 @@ def send_request(request):
 
 
 def verify(authority):
+    order = Order.objects.get(id=request.session['order_id'])
     data = {
         "MerchantID": settings.MERCHANT,
-        #"Amount": amount,
+        # "Amount": amount,
         "Authority": authority,
     }
     data = json.dumps(data)
@@ -144,6 +143,7 @@ def verify(authority):
 
             else:
                 return HttpResponse('Error')
+        del requests.session['order_id']
         return HttpResponse('response failed')
     except requests.exceptions.Timeout:
         return HttpResponse('Timeout Error')
