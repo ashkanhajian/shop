@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import *
-from .models import OrderItem , Order
+from .models import OrderItem, Order
 from card.cart import Cart
 from account.models import ShopUser
 import random
@@ -94,7 +94,7 @@ def send_request(request):
     order = Order.objects.get(id=request.session['order_id'])
     cart = Cart(request)
     description = ''
-    for item in order.order_item:
+    for item in order.items.all():
         description += item.product.name + ','
     data = {
         "MerchantID": settings.MERCHANT,
@@ -127,8 +127,8 @@ def verify(request):
     order = Order.objects.get(id=request.session['order_id'])
     data = {
         "MerchantID": settings.MERCHANT,
-        # "Amount": amount,
-        # "Authority": authority,
+        "Amount": order.get_final_price(),
+        "Authority": request.GET.get('Authority'),
     }
     data = json.dumps(data)
     # set content length by data
@@ -139,6 +139,11 @@ def verify(request):
             response_json = response.json()
             reference_id = response_json['RefID']
             if response['Status'] == 100:
+                for item in order.items.all():
+                    item.product.inventory -= item.quantity
+                    item.product.save()
+                order.paid = True
+                order.save()
                 return HttpResponse(f'successful , RefID: {reference_id}')
 
             else:
