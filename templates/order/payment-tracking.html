@@ -1,0 +1,20 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}paymanet{% endblock %}
+
+{% block content %}
+        {% if success %}
+        <div class="success">
+            <p>successful payment</p>
+            <p>Ref id :{{ RefID }}</p>
+            <p>order number:{{ order_id }}</p>
+        </div>
+        {% else %}
+        <div class="failure">
+            <p>failed payment</p>
+        </div>    
+
+            
+        {% endif %} 
+    <a class="back-btn" href="{%url 'shop:products_list' %}">back to products list</a>
+{% endblock %}
