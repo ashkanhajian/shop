@@ -11,11 +11,22 @@ def export_to_exel(modeladmin, request, queryset):
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = 'Orders'
-    columns = ['ID', 'First name', 'Last name', 'phone', 'address', 'postal code', 'Paid']
+    columns = ['ID', 'First name', 'Last name', 'phone', 'address', 'Paid', 'created']
     ws.append(columns)
     for order in queryset:
         created = order.created.replace(tzinfo=None) if order.created else ''
-        ws.append(created)
+        ws.append([order.id,
+                   order.first_name,
+                   order.last_name,
+                   order.phone,
+                   order.address,
+                   order.paid,
+                   created, ])
+    wb.save(response)
+    return response
+
+
+export_to_exel.short_description = 'Export_to_Exel'
 
 
 class OrderItemInline(admin.TabularInline):
