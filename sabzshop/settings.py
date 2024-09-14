@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     "shop.apps.ShopConfig",
     "card.apps.CardConfig",
     "orders.apps.OrdersConfig",
-    "account.apps.AccountConfig"
+    "account.apps.AccountConfig",
+    "api.apps.ApiConfig",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MERCHANT = "00000000-0000-0000-0000-000000000000"
 
 SANDBOX = False
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ]
+}
