@@ -1,8 +1,15 @@
 from rest_framework import serializers
-from shop.models import Product
+from shop.models import Product, ProductFeature
+
+
+class ProductFeatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('name', 'value')
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    features = ProductFeatureSerializer(many=True, read_only=True)
+
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'new_price']
+        fields = ['id', 'name', 'description', 'new_price','features']
