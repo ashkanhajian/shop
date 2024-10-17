@@ -33,7 +33,6 @@ class Product(models.Model):
     weight = models.PositiveIntegerField(default=0, verbose_name='weight')
     off = models.PositiveIntegerField(default=0, verbose_name='off')
     new_price = models.PositiveIntegerField(default=0, verbose_name="new price")
-
     created = models.DateTimeField(auto_now_add=True, verbose_name='created time')
     updated = models.DateTimeField(auto_now=True, verbose_name='updated time')
 
